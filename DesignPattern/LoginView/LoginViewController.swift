@@ -22,8 +22,7 @@ class LoginViewController: UIViewController {
     private func setupBinders() {
         viewModel.error.bind { [weak self] error in
             if let error = error {
-                //TODO: Show error alert
-                print(error)
+                self?.showErrorAlert(msg: error)
             } else {
                 self?.goToHomePage()
             }
@@ -35,12 +34,17 @@ class LoginViewController: UIViewController {
         present(controller, animated: true, completion: nil)
     }
     
+    private func showErrorAlert(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func loginBtnClicked(_ sender: UIButton) {
         guard let email = emailField.text,
               let password = passwordField.text
         else {
-            //TODO: Request user type user and password
-            print("Please enter user and password")
+            showErrorAlert(msg: "Please enter user and password")
             return
         }
         viewModel.login(email: email, password: password)
