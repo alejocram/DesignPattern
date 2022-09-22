@@ -8,15 +8,16 @@
 import Foundation
 
 final class LoginViewModel {
+    var error: ObservableObject<String?> = ObservableObject(nil)
     
     func login(email: String, password: String) {
-        NetworkService.share.login(email: email, password: password) { success in
+        NetworkService.share.login(email: email, password: password) { [weak self] success in
             if success {
-                //TODO: Show home page
+                self?.error.value = nil
                 print("Successful")
             } else {
-                //TODO: Show error alert
-                print("Invalid credentials!!!")
+                let errorMsg: String = "Invalid credentials!!!"
+                self?.error.value = errorMsg
             }
         }
     }

@@ -16,6 +16,23 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBinders()
+    }
+    
+    private func setupBinders() {
+        viewModel.error.bind { [weak self] error in
+            if let error = error {
+                //TODO: Show error alert
+                print(error)
+            } else {
+                self?.goToHomePage()
+            }
+        }
+    }
+    
+    private func goToHomePage() {
+        let controller = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        present(controller, animated: true, completion: nil)
     }
     
     @IBAction func loginBtnClicked(_ sender: UIButton) {
