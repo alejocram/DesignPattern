@@ -11,13 +11,23 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var welcomeLbl: UILabel!
     
+    private let viewModel = HomeViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupBinders()
+        
+        viewModel.showMessage()
     }
     
-
+    func setupBinders() {
+        viewModel.welcomeMsg.bind { [weak self] welcomeMsg in
+            if let message = welcomeMsg {
+                self?.welcomeLbl.text = message
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
